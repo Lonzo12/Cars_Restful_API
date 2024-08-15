@@ -14,6 +14,9 @@
             <div>
                 <h1 class="text-center">Car API Client</h1>
             </div>
+            <div>
+                <a href="{% url 'docs' %}">API Документация</a>
+            </div>
             {% if user.is_authenticated %}
             <div class="row">
                 <div class="col"><p class="text" style="font-size: 25px">{{ user.username }}</p></div>
@@ -230,8 +233,66 @@
         <!-- Display for car details -->
         <div class="modal fade" id="carDetailsModal" tabindex="-1" aria-labelledby="carDetailsModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" id="carDetails">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="carDetailsModalLabel">Детали автомобиля</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Отображение деталей автомобиля -->
+                        <div id="carDetailsDisplay">
+                            <!-- Сюда будет динамически добавлен контент с деталями автомобиля -->
+                        </div>
 
+                        <!-- Форма для обновления данных автомобиля (скрыта по умолчанию) -->
+                        <form id="carUpdateForm" style="display:none;">
+                            <!-- Поля формы для обновления данных автомобиля -->
+                            <div class="mb-3">
+                                <label for="updateBrand" class="form-label">Марка</label>
+                                <input type="text" class="form-control" id="updateBrand" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateModel" class="form-label">Модель</label>
+                                <input type="text" class="form-control" id="updateModel" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateYear" class="form-label">Год</label>
+                                <input type="number" class="form-control" id="updateYear" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateFuelType" class="form-label">Тип топлива</label>
+                                <select class="form-select" id="updateFuelType" required>
+                                    <option value="petrol">Бензин</option>
+                                    <option value="disel">Дизель</option>
+                                    <option value="electro">Электричество</option>
+                                    <option value="hybrid">Гибрид</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateTransmission" class="form-label">Коробка передач</label>
+                                <select class="form-select" id="updateTransmission" required>
+                                    <option value="mechanical">Механическая</option>
+                                    <option value="automatic">Автоматическая</option>
+                                    <option value="variator">Вариатор</option>
+                                    <option value="robot">Робот</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateMileage" class="form-label">Пробег</label>
+                                <input type="number" class="form-control" id="updateMileage" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updatePrice" class="form-label">Цена</label>
+                                <input type="number" class="form-control" id="updatePrice" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="updateButton" class="btn btn-primary" onclick="openCarDetailsModal(${car.id})">Обновить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" id="saveButton" class="btn btn-success" style="display:none;">Сохранить</button>
+                        <button type="button" id="cancelButton" class="btn btn-secondary" style="display:none;">Отмена</button>
+                    </div>
                 </div>
             </div>
         </div>

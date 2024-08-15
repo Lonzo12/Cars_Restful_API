@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 #model cars
 class Car(models.Model):
@@ -23,6 +24,7 @@ class Car(models.Model):
      transmission_type = models.CharField(max_length=100, choices=TRANSMISSION_CHOICES, verbose_name='Тип коробки передач')
      mileage = models.IntegerField(verbose_name='Пробег')
      price = models.IntegerField(verbose_name='Цена')
+     owner = models.ForeignKey(User, related_name='cars', on_delete=models.CASCADE)
 
      def __str__(self):
          return f'{self.brand} {self.model} ({self.year})'

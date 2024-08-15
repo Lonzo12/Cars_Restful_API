@@ -1,21 +1,20 @@
-from django.shortcuts import render, redirect
-from rest_framework import viewsets, filters
+from rest_framework import viewsets
 from .models import Car
 from .serializers import CarSerializer
 from django_filters import rest_framework as filters
 from .filters import CarFilter
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from rest_framework.decorators import action
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from rest_framework_simplejwt.tokens import RefreshToken
 from .forms import *
 
+# Функция регистрации
 @api_view(['POST'])
 def register(request):
     data = request.data
@@ -46,6 +45,7 @@ def register(request):
 
     return Response({"message": "Регистрация успешна"}, status=status.HTTP_201_CREATED)
 
+# Функция авторизации
 @api_view(['POST'])
 def login_view(request):
     data = request.data
@@ -66,6 +66,7 @@ def login_view(request):
     else:
         return Response({"error": "Неверное имя пользователя или пароль"}, status=status.HTTP_401_UNAUTHORIZED)
 
+# Функция выхода
 @api_view(['POST'])
 def logout_view(request):
     try:
@@ -77,12 +78,14 @@ def logout_view(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+# Класс для работы с автомобилями
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = CarFilter
 
+    # Функция для проверки аутентификации
     def get_permissions(self):
         if self.action in ['create']:  # Если действие - создание, требуем аутентификацию
             self.permission_classes = [IsAuthenticated]
@@ -90,10 +93,18 @@ class CarViewSet(viewsets.ModelViewSet):
             self.permission_classes = [AllowAny]
         return super().get_permissions()
 
-    # Если хотите добавить отдельное действие для просмотра деталей автомобиля
-    @action(detail=True, methods=['get'])
-    def details(self, request, pk=None):
-        car = self.get_object()
-        serializer = CarSerializer(car)
-        return Response(serializer.data)
+    # Функция добавления авто
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    # Функция добавления авто
+    def perform_update(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    # Функция удаления авто
+    def perform_destroy(self, instance):
+        if instance.owner == self.request.user:
+            instance.delete()
+        else:
+            raise PermissionDenied("You do not have permission to delete this car.")
 

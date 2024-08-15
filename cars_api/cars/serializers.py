@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
-        fields = '__all__'
+        fields = ['id', 'brand', 'model', 'year', 'fuel_type', 'transmission_type', 'mileage', 'price']
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

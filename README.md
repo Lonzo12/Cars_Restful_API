@@ -34,7 +34,7 @@ git clone https://github.com/Lonzo12/Cars_Restful_API.git
 cd Cars_Restful_API
 ```
 
-## Настройка виртуального окружения
+### Настройка виртуального окружения
 
 1. Убедитесь, что у вас установлен **virtualenv**:
 ```bash
@@ -54,19 +54,19 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-## Установка зависимостей
+### Установка зависимостей
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Миграции базы данных
+### Миграции базы данных
 
 ```bash
 python manage.py migrate
 ```
 
-## Запуск сервера
+### Запуск сервера
 
 ```bash
 python manage.py runserver
@@ -127,6 +127,13 @@ python manage.py runserver
   "price": 20000
 }
 ```
+
+## Обновление данных автомобиля
+**PUT /api/cars/**
+
+## Удаление автомобиля
+**DELETE /api/cars/**
+
 ## Примечания
 * Убедитесь, что у вас установлены все зависимости, указанные в requirements.txt;
 * Проект использует JWT для аутентификации, убедитесь, что вы правильно настроили настройки JWT в Django.
