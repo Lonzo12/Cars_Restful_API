@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,19 +18,77 @@
             <div class="row">
                 <div class="col"><p class="text" style="font-size: 25px">{{ user.username }}</p></div>
                 <div class="col">
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Выход</button>
-                </form>
+                    <button id="logoutButton" class="btn btn-danger">Выйти</button>
                 </div>
             </div>
             {% else %}
             <div class="row">
-                <a href="{% url 'register' %}" class="col"><button type="button" class="btn btn-primary">Регистрация</button></a>
-                <a href="{% url 'login' %}" class="col"><button type="button" class="btn btn-primary">Вход</button></a>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">Регистрация</button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Войти</button>
+                </div>
             </div>
             {% endif %}
+        </div>
 
+        <!-- Register modal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header"><h3 class="modal-title">Регистрация</h3></div>
+                    <form id="registerForm" method="POST">
+                      {% csrf_token %}
+                      <div class="container mb-2 d-flex flex-column justify-content-center">
+                          <div class="mb-3">
+                              <label for="id_username" class="form-label">Username</label>
+                              <input type="text" class="form-control" id="id_username" name="username" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="id_email" class="form-label">Email</label>
+                              <input type="email" class="form-control" id="id_email" name="email" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="id_password1" class="form-label">Password</label>
+                              <input type="password" class="form-control" id="id_password1" name="password1" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="id_password2" class="form-label">Confirm Password</label>
+                              <input type="password" class="form-control" id="id_password2" name="password2" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Регистрация</button>
+                      </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Login modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Авторизация</h3>
+                    </div>
+                    <form method="POST" id="loginForm">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label for="id_usernames" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="id_usernames" name="username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="id_password" name="password" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </form>
+                </div>
+            </div>
         </div>
         <!-- Form to Add a New Car -->
         <div class="card mt-4">
@@ -159,6 +218,9 @@
                 <h3 class="card-title">Cars List</h3>
                 <div id="carsList" class="row">
                     <!-- Filtered cars will be displayed here -->
+                </div>
+                <div id="paginationControls" class="d-flex justify-content-center mt-4">
+                    <!-- Кнопки пагинации будут добавлены здесь -->
                 </div>
             </div>
         </div>
