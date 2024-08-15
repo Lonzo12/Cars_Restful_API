@@ -31,7 +31,7 @@ Car API Client - это веб-приложение, которое позвол
 git clone https://github.com/Lonzo12/Cars_Restful_API.git
 ```
 ```bash
-cd cars_api
+cd Cars_Restful_API
 ```
 
 ## Настройка виртуального окружения
