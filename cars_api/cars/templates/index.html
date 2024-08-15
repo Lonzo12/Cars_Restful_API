@@ -73,7 +73,7 @@
                     </div>
                     <form method="POST" id="loginForm">
                         {% csrf_token %}
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-center">
                             <div class="col-md-5">
                                 <div class="mb-3">
                                     <label for="id_usernames" class="form-label">Username</label>
@@ -83,9 +83,11 @@
                                     <label for="id_password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="id_password" name="password" required>
                                 </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Войти</button>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Войти</button>
                     </form>
                 </div>
             </div>
