@@ -51,7 +51,7 @@ source venv/bin/activate
 
 **На Windows**:
 ```bash
-venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 ### Установка зависимостей
