@@ -63,6 +63,10 @@ pip install -r requirements.txt
 ### Миграции базы данных
 
 ```bash
+cd cars_api
+```
+
+```bash
 python manage.py migrate
 ```
 
